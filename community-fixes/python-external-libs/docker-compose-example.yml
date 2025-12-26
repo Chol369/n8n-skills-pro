@@ -1,0 +1,96 @@
+# n8n with External Task Runners (Python External Libraries Support)
+#
+# This configuration enables ALL Python libraries in n8n Code nodes
+# including pandas, numpy, requests, scikit-learn, etc.
+#
+# Author: Atak Chol (@Chol369)
+# Tested: n8n 1.82.3+ and 2.0+
+
+services:
+  n8n:
+    image: n8nio/n8n
+    restart: always
+    ports:
+      - "5678:5678"
+    volumes:
+      - n8n_data:/home/node/.n8n
+    environment:
+      # === BASIC SETTINGS ===
+      - N8N_HOST=${N8N_HOST:-localhost}
+      - N8N_PORT=5678
+      - N8N_PROTOCOL=${N8N_PROTOCOL:-http}
+      - GENERIC_TIMEZONE=${TIMEZONE:-UTC}
+      - TZ=${TIMEZONE:-UTC}
+
+      # === EXECUTION PRUNING (Save Disk Space) ===
+      - N8N_EXECUTIONS_DATA_PRUNE=true
+      - N8N_EXECUTIONS_DATA_MAX_AGE=168
+      - N8N_EXECUTIONS_DATA_PRUNE_MAX_COUNT=5000
+
+      # === DATABASE (PostgreSQL Recommended) ===
+      - DB_TYPE=postgresdb
+      - DB_POSTGRESDB_HOST=postgres
+      - DB_POSTGRESDB_DATABASE=${POSTGRES_DB:-n8n_db}
+      - DB_POSTGRESDB_USER=${POSTGRES_USER:-n8n_user}
+      - DB_POSTGRESDB_PASSWORD=${POSTGRES_PASSWORD:-change_me_in_production}
+
+      # === TASK RUNNER SETTINGS (Python Support) ===
+      # These settings enable external task runners for Python/JS code execution
+      - N8N_RUNNERS_MODE=external
+      - N8N_RUNNERS_BROKER_LISTEN_ADDRESS=0.0.0.0
+      - N8N_RUNNERS_AUTH_TOKEN=${RUNNERS_AUTH_TOKEN:-generate_with_openssl_rand_hex_32}
+
+    depends_on:
+      - postgres
+    deploy:
+      resources:
+        limits:
+          memory: 600M
+
+  # === EXTERNAL TASK RUNNER ===
+  # This container executes Python and JavaScript code nodes
+  # with full library access
+  n8n-runner:
+    image: n8nio/runners:latest
+    restart: always
+    volumes:
+      - ./n8n-task-runners.json:/etc/n8n-task-runners.json:ro
+    environment:
+      - N8N_RUNNERS_TASK_BROKER_URI=http://n8n:5679
+      - N8N_RUNNERS_AUTH_TOKEN=${RUNNERS_AUTH_TOKEN:-generate_with_openssl_rand_hex_32}
+    depends_on:
+      - n8n
+    deploy:
+      resources:
+        limits:
+          memory: 300M
+
+  # === DATABASE ===
+  postgres:
+    image: postgres:16-alpine
+    restart: always
+    environment:
+      - POSTGRES_DB=${POSTGRES_DB:-n8n_db}
+      - POSTGRES_USER=${POSTGRES_USER:-n8n_user}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD:-change_me_in_production}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    deploy:
+      resources:
+        limits:
+          memory: 512M
+
+  # === AUTO-UPDATE (Optional) ===
+  watchtower:
+    image: containrrr/watchtower
+    restart: always
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    environment:
+      - WATCHTOWER_SCHEDULE=0 0 3 ? * SUN
+      - WATCHTOWER_CLEANUP=true
+    command: --cleanup --schedule "0 0 3 ? * SUN"
+
+volumes:
+  n8n_data:
+  postgres_data:

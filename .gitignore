@@ -1,0 +1,52 @@
+# Dependencies
+node_modules/
+.npm/
+
+# Build outputs
+dist/
+build/
+*.tgz
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+npm-debug.log*
+
+# Environment
+.env
+.env.local
+.env.*.local
+
+# Temporary
+tmp/
+temp/
+*.tmp
+
+# Secrets (never commit these!)
+**/credentials.json
+**/secrets.json
+**/*-ssh-key
+**/*.pem
+**/api-key*
+
+# Test outputs
+coverage/
+.nyc_output/
+
+# Generated skill packs (keep source, not bundles)
+*.zip
+skill-pack/
+
+# Project plan (private, not for public repo)
+PROJECT_PLAN.md
+PROJECT_PLAN_backup.md
