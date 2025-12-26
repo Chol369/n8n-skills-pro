@@ -104,17 +104,12 @@ function validateSkill(skillDir: string): ValidationResult {
   }
 
   // Validate node type formats in code blocks
-  const codeBlocks = content.match(/```[\s\S]*?```/g) || [];
-  for (const block of codeBlocks) {
-    // Check for incorrect node type formats
-    if (block.includes('n8n-nodes-base.') && block.includes('search_nodes')) {
-      result.errors.push('search_nodes should use "nodes-base.X" format, not "n8n-nodes-base.X"');
-      result.valid = false;
-    }
-    if (block.includes('n8n-nodes-base.') && block.includes('get_node')) {
-      result.errors.push('get_node should use "nodes-base.X" format, not "n8n-nodes-base.X"');
-      result.valid = false;
-    }
+  // Check for incorrect usage: n8n-nodes-base.X used as nodeType argument in MCP tools
+  // This regex catches: nodeType: "n8n-nodes-base.X" or nodeType: 'n8n-nodes-base.X'
+  const incorrectNodeTypePattern = /nodeType:\s*["']n8n-nodes-base\./g;
+  if (incorrectNodeTypePattern.test(content)) {
+    result.errors.push('MCP tools (search_nodes, get_node) should use "nodes-base.X" format, not "n8n-nodes-base.X"');
+    result.valid = false;
   }
 
   // Check for common mistakes
