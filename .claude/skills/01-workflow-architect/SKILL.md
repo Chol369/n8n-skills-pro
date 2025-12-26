@@ -93,9 +93,9 @@ START: User wants to automate something
 
 | Category | Examples | n8n Support | Auth Type |
 |----------|----------|-------------|-----------|
-| E-commerce | Shopify, WooCommerce, BigCommerce | Native nodes | OAuth |
+| E-commerce | Shopify, WooCommerce, Magento | Native nodes | OAuth/API Key |
 | CRM | HubSpot, Salesforce, Zoho CRM | Native nodes | OAuth |
-| Marketing | Klaviyo, Mailchimp, ActiveCampaign | Native nodes | API Key/OAuth |
+| Marketing | Mailchimp, ActiveCampaign, SendGrid | Native nodes | API Key/OAuth |
 | Productivity | Notion, Airtable, Google Sheets | Native nodes | OAuth |
 | Communication | Slack, Discord, Teams | Native nodes | OAuth |
 | Payments | Stripe, PayPal, Square | Native nodes | API Key |
@@ -135,7 +135,7 @@ When analyzing a user's stack:
 ## Common Business Scenarios
 
 ### Scenario 1: E-commerce Automation
-**Stack**: Shopify + Klaviyo + Slack + Google Sheets
+**Stack**: Shopify + Mailchimp + Slack + Google Sheets
 
 **Verdict**: Pure n8n
 - All services have native nodes

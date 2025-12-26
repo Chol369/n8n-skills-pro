@@ -117,7 +117,7 @@ Webhook → AI Agent ─┬─ Language Model
 | `ai_tool` | Tools the agent can use |
 | `ai_memory` | Conversation memory |
 | `ai_outputParser` | Structure output |
-| `ai_retriever` | RAG retrieval |
+| `ai_textSplitter` | Chunk large documents |
 | `ai_document` | Document loaders |
 | `ai_embedding` | Embedding models |
 | `ai_vectorStore` | Vector databases |
@@ -268,7 +268,7 @@ Main Workflow ─┬─ Success Path
 
 ### Deployment Phase
 - [ ] Review workflow settings
-- [ ] Activate workflow (manual in n8n UI - API cannot activate)
+- [ ] Activate workflow (via UI or API using `activateWorkflow` operation)
 - [ ] Monitor first executions
 - [ ] Document workflow purpose
 

@@ -32,6 +32,10 @@ tmp/
 temp/
 *.tmp
 
+# Cache (except exported node list)
+.cache/
+!.cache/node-list.md
+
 # Secrets (never commit these!)
 **/credentials.json
 **/secrets.json

@@ -31,8 +31,34 @@ for item in items:
 |----------|-------------|---------|
 | `_input` | Input data accessor | `_input.all()` |
 | `_json` | First item's JSON (shortcut) | `_json['field']` |
-| `_node` | Node information | `_node.name` |
+| `_node` | Access specific node's output | `_node["HTTP Request"]["json"]` |
 | `_env` | Environment variables | `_env['API_KEY']` |
+
+### CRITICAL: Webhook Data Access
+
+**Webhook data is nested under `["body"]`:**
+
+```python
+# WRONG - Won't work
+data = _json["name"]
+
+# CORRECT - Webhook data is under body
+data = _json["body"]["name"]
+
+# Example: Processing webhook payload
+webhook_body = _json["body"]
+username = webhook_body.get("username")
+email = webhook_body.get("email")
+items = webhook_body.get("items", [])
+```
+
+### Accessing Other Nodes
+
+```python
+# Get output from a specific node by name
+http_result = _node["HTTP Request"]["json"]
+webhook_data = _node["Webhook"]["json"]["body"]
+```
 
 ---
 
@@ -67,11 +93,30 @@ for item in items:
 return results
 ```
 
+### Returning Binary Data
+
+```python
+import base64
+
+# For files like PDFs, images, etc.
+return [{
+    "json": {"filename": "report.pdf"},
+    "binary": {
+        "data": base64.b64encode(pdf_content).decode()
+    }
+}]
+```
+
 ---
 
-## External Libraries (ENABLED!)
+## External Libraries (Requires Setup!)
 
-Unlike what other guides say, **external libraries ARE available** with proper setup.
+> **Note:** By default, external libraries (pandas, numpy, requests) are **NOT available** in the Python Code node. However, with external task runner configuration, they CAN be enabled.
+
+### Default Behavior (No External Libraries)
+
+Without task runner setup, only standard library modules are available:
+- `json`, `datetime`, `re`, `math`, `hashlib`, `base64`, `urllib`, `collections`, `random`
 
 ### Enabling External Libraries
 

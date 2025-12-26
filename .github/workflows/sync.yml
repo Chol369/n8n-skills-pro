@@ -1,0 +1,56 @@
+name: Sync n8n Nodes
+
+on:
+  # Run weekly on Sunday at midnight UTC
+  schedule:
+    - cron: '0 0 * * 0'
+  # Allow manual trigger
+  workflow_dispatch:
+
+jobs:
+  sync:
+    name: Sync Node Information
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+          cache-dependency-path: scripts/package.json
+
+      - name: Install dependencies
+        run: |
+          cd scripts
+          npm install
+
+      - name: Run sync script
+        run: |
+          cd scripts
+          npx ts-node sync-n8n-nodes.ts
+
+      - name: Check for changes
+        id: changes
+        run: |
+          if [ -n "$(git status --porcelain .cache/)" ]; then
+            echo "has_changes=true" >> $GITHUB_OUTPUT
+          else
+            echo "has_changes=false" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Commit and push changes
+        if: steps.changes.outputs.has_changes == 'true'
+        run: |
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+          git add .cache/
+          git commit -m "chore: sync n8n node information
+
+          Automated sync of n8n node metadata.
+
+          Generated with [GitHub Actions]"
+          git push

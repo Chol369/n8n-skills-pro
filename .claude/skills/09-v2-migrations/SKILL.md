@@ -188,7 +188,7 @@ Use n8n_autofix_workflow:
 Tool: n8n_autofix_workflow
 id: "workflow-id"
 fixTypes: ["typeversion-upgrade"]
-autoUpgradeVersions: true
+applyFixes: true
 ```
 
 ---

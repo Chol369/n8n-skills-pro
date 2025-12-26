@@ -67,10 +67,9 @@ Configuration best practices:
   "method": "POST",
   "url": "https://api.example.com",
   "sendBody": true,       // Now visible!
-  "body": {               // Required when sendBody=true
-    "contentType": "json",
-    "content": {...}
-  }
+  "contentType": "json",  // Body content type
+  "specifyBody": "json",  // Use JSON input
+  "jsonBody": {...}       // The actual JSON body
 }
 ```
 
@@ -214,12 +213,11 @@ validate_node({
   "url": "https://api.example.com/create",
   "authentication": "none",
   "sendBody": true,
-  "body": {
-    "contentType": "json",
-    "content": {
-      "name": "={{$json.name}}",
-      "email": "={{$json.email}}"
-    }
+  "contentType": "json",
+  "specifyBody": "json",
+  "jsonBody": {
+    "name": "={{$json.name}}",
+    "email": "={{$json.email}}"
   }
 }
 ```
@@ -345,7 +343,7 @@ AI/Langchain nodes use special connection types:
 | `ai_tool` | Tools for agent | HTTP Request Tool, Calculator |
 | `ai_memory` | Conversation memory | Buffer Memory, PostgreSQL Memory |
 | `ai_outputParser` | Structure output | JSON Parser, Structured Output |
-| `ai_retriever` | RAG retrieval | Vector Store Retriever |
+| `ai_textSplitter` | Chunk documents | Text Splitter, Recursive Splitter |
 | `ai_document` | Document loaders | PDF, Text, JSON loaders |
 | `ai_embedding` | Embedding models | OpenAI Embeddings |
 | `ai_vectorStore` | Vector databases | Pinecone, Qdrant, Supabase |
@@ -455,12 +453,11 @@ AI/Langchain nodes use special connection types:
   "url": "https://api.example.com/users",
   "authentication": "none",
   "sendBody": true,
-  "body": {
-    "contentType": "json",
-    "content": {
-      "name": "John Doe",
-      "email": "john@example.com"
-    }
+  "contentType": "json",
+  "specifyBody": "json",
+  "jsonBody": {
+    "name": "John Doe",
+    "email": "john@example.com"
   }
 }
 ```

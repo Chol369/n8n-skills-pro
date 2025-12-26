@@ -78,7 +78,7 @@ n8n-nodes-base.slack      ✗ Wrong
 | Package | Search Format | Workflow Format |
 |---------|---------------|-----------------|
 | Core nodes | `nodes-base.httpRequest` | `n8n-nodes-base.httpRequest` |
-| AI nodes | `@n8n/n8n-nodes-langchain.agent` | `@n8n/n8n-nodes-langchain.agent` |
+| AI nodes | `nodes-langchain.agent` | `@n8n/n8n-nodes-langchain.agent` |
 
 ---
 
@@ -97,15 +97,14 @@ Returns matching nodes with:
 - Description
 - Operations available
 
-### Search with Examples
+### Search then Get Examples
 
 ```
-Tool: search_nodes
-Query: "http request"
-includeExamples: true
+1. search_nodes with query: "http request"
+2. get_node with nodeType + includeExamples: true
 ```
 
-Returns node info PLUS real configurations from templates.
+First search, then use `get_node` with `includeExamples: true` for real configurations.
 
 ### Search Modes
 
