@@ -46,6 +46,37 @@ npx ts-node sync-n8n-nodes.ts
 - Includes core nodes and AI/Langchain nodes
 - Documents AI connection types
 
+### build-skill-pack.ts
+
+Builds distributable skill packs for different platforms.
+
+```bash
+# Basic build
+npx ts-node build-skill-pack.ts
+
+# With zip archive
+npx ts-node build-skill-pack.ts --zip
+
+# Custom output directory
+npx ts-node build-skill-pack.ts --output ./my-pack
+
+# Skip validation
+npx ts-node build-skill-pack.ts --no-validate
+```
+
+**Generated files:**
+- `skill-pack/n8n-skills-complete.md` - Single file with all skills
+- `skill-pack/n8n-skills-quick-reference.md` - Quick reference for Claude Desktop
+- `skill-pack/individual/` - Individual skill files
+- `skill-pack/manifest.json` - Build manifest with checksums
+
+**Usage by platform:**
+| Platform | File to Use |
+|----------|-------------|
+| Claude Code CLI | Copy `individual/` to `.claude/skills/` |
+| Claude.ai | Upload `n8n-skills-complete.md` to project |
+| Claude Desktop | Use `n8n-skills-quick-reference.md` |
+
 ## GitHub Actions Integration
 
 These scripts are used in CI/CD workflows:

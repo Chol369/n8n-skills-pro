@@ -5,7 +5,9 @@
   "type": "commonjs",
   "scripts": {
     "validate": "ts-node validate-skills.ts",
-    "sync": "ts-node sync-n8n-nodes.ts"
+    "sync": "ts-node sync-n8n-nodes.ts",
+    "build": "ts-node build-skill-pack.ts",
+    "build:zip": "ts-node build-skill-pack.ts --zip"
   },
   "devDependencies": {
     "@types/node": "^20.0.0",
