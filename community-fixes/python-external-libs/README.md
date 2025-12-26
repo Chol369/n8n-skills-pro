@@ -244,22 +244,54 @@ return [{'json': stats}]
 
 ## Pre-installed Libraries
 
-The `n8nio/runners:latest` image includes common libraries:
+> **IMPORTANT:** The `n8nio/runners:latest` image does **NOT** include external libraries by default.
 
-- `pandas`
-- `numpy`
-- `requests`
-- `python-dateutil`
-- `pytz`
+**What's actually installed:**
+- Python 3.13.x
+- `pip` (package manager only)
+- Python standard library (json, datetime, re, hashlib, base64, urllib, etc.)
 
-### Installing Additional Libraries
+**What's NOT installed:**
+- pandas
+- numpy
+- requests
+- python-dateutil
+- pytz
+- Any other external libraries
 
-To add more libraries, create a custom Dockerfile:
+### Available Standard Library Modules
+
+These modules are available without any additional installation:
+
+| Category | Modules |
+|----------|---------|
+| Data | `json`, `csv`, `pickle`, `sqlite3`, `xml` |
+| Text | `re`, `string`, `textwrap`, `difflib` |
+| DateTime | `datetime`, `calendar`, `time`, `zoneinfo` |
+| Math | `math`, `statistics`, `random`, `decimal`, `fractions` |
+| Crypto | `hashlib`, `hmac`, `secrets` |
+| Encoding | `base64`, `binascii`, `codecs` |
+| Network | `urllib`, `http`, `socket`, `ssl`, `email` |
+| Files | `os`, `pathlib`, `shutil`, `glob`, `tempfile`, `gzip`, `zipfile` |
+| System | `sys`, `subprocess`, `threading`, `multiprocessing`, `asyncio` |
+| Utils | `collections`, `itertools`, `functools`, `copy`, `typing` |
+
+### Installing External Libraries
+
+To use pandas, numpy, requests, etc., you MUST create a custom Dockerfile:
 
 ```dockerfile
 FROM n8nio/runners:latest
 
-# Install additional Python packages
+# Install common Python packages
+RUN /opt/runners/task-runner-python/.venv/bin/pip install \
+    pandas \
+    numpy \
+    requests \
+    python-dateutil \
+    pytz
+
+# Optional: Add more libraries as needed
 RUN /opt/runners/task-runner-python/.venv/bin/pip install \
     scikit-learn \
     beautifulsoup4 \
@@ -267,7 +299,7 @@ RUN /opt/runners/task-runner-python/.venv/bin/pip install \
     openpyxl
 ```
 
-Then update your docker-compose.yml:
+Then update your docker-compose.yml to build from your custom Dockerfile:
 
 ```yaml
 n8n-runner:
@@ -324,11 +356,13 @@ Enabling `N8N_RUNNERS_EXTERNAL_ALLOW: "*"` allows ANY Python code execution. Con
 
 ## Tested Configurations
 
-| n8n Version | Runner Image | Status |
-|-------------|--------------|--------|
-| 1.70+ | n8nio/runners:latest | Working |
-| 1.82.3 | n8nio/runners:latest | Working |
-| 2.0+ | n8nio/runners:latest | Working |
+| n8n Version | Runner Image | Python Version | Status |
+|-------------|--------------|----------------|--------|
+| 2.1.4 | n8nio/runners:latest | 3.13.11 | Verified Dec 2025 |
+| 2.0+ | n8nio/runners:latest | 3.13.x | Working |
+| 1.82.3 | n8nio/runners:latest | 3.x | Working |
+
+**Verified:** The base `n8nio/runners:latest` image includes only Python stdlib + pip. External libraries require custom Dockerfile.
 
 ---
 
