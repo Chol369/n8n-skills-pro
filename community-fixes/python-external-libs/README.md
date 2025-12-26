@@ -278,13 +278,44 @@ These modules are available without any additional installation:
 
 ### Installing External Libraries
 
-To use pandas, numpy, requests, etc., you MUST create a custom Dockerfile:
+There are two methods to install external libraries:
+
+#### Method 1: Live Installation (Quick Testing)
+
+Install directly into a running container (changes are lost on container restart):
+
+```bash
+# SSH into your server
+ssh -i <your-key> ubuntu@<your-ip>
+
+# Install package to the venv site-packages (MUST run as root)
+docker exec -u root <runner-container-name> pip install \
+    --target=/opt/runners/task-runner-python/.venv/lib/python3.13/site-packages/ \
+    numpy pandas requests
+
+# Verify installation
+docker exec <runner-container-name> \
+    /opt/runners/task-runner-python/.venv/bin/python \
+    -c "import numpy; print(f'NumPy {numpy.__version__} installed!')"
+```
+
+**Example with actual container name:**
+```bash
+docker exec -u root n8n_compose-n8n-runner-1 pip install \
+    --target=/opt/runners/task-runner-python/.venv/lib/python3.13/site-packages/ \
+    numpy
+```
+
+#### Method 2: Custom Dockerfile (Persistent)
+
+For permanent installation, create a custom Dockerfile:
 
 ```dockerfile
 FROM n8nio/runners:latest
 
-# Install common Python packages
-RUN /opt/runners/task-runner-python/.venv/bin/pip install \
+# Install packages to the venv site-packages
+RUN pip install \
+    --target=/opt/runners/task-runner-python/.venv/lib/python3.13/site-packages/ \
     pandas \
     numpy \
     requests \
@@ -292,7 +323,8 @@ RUN /opt/runners/task-runner-python/.venv/bin/pip install \
     pytz
 
 # Optional: Add more libraries as needed
-RUN /opt/runners/task-runner-python/.venv/bin/pip install \
+RUN pip install \
+    --target=/opt/runners/task-runner-python/.venv/lib/python3.13/site-packages/ \
     scikit-learn \
     beautifulsoup4 \
     lxml \
@@ -317,11 +349,43 @@ n8n-runner:
 2. Verify network connectivity between containers
 3. Check logs: `docker-compose logs n8n-runner`
 
-### Library Not Found
+### Library Not Found ("No module named 'X'")
 
-1. Check if library is pre-installed in runner image
-2. Build custom image with additional libraries
-3. Verify `N8N_RUNNERS_EXTERNAL_ALLOW: "*"` is set
+**Root Cause:** Library was installed in the wrong location.
+
+**Solution:** Install to the task runner's venv site-packages:
+
+```bash
+# WRONG - Installs to system Python (won't work)
+docker exec n8n-runner pip install numpy
+
+# CORRECT - Install to venv site-packages
+docker exec -u root n8n-runner pip install \
+    --target=/opt/runners/task-runner-python/.venv/lib/python3.13/site-packages/ \
+    numpy
+```
+
+**Verify installation location:**
+```bash
+docker exec n8n-runner \
+    /opt/runners/task-runner-python/.venv/bin/python \
+    -c "import numpy; print(numpy.__file__)"
+
+# Should output:
+# /opt/runners/task-runner-python/.venv/lib/python3.13/site-packages/numpy/__init__.py
+```
+
+### Permission Denied During Install
+
+Run docker exec as root:
+```bash
+# Add -u root flag
+docker exec -u root <container-name> pip install ...
+```
+
+### Library Lost After Container Restart
+
+Use Method 2 (Custom Dockerfile) for persistent installations, or re-run the install command after each restart.
 
 ### Memory Issues
 
@@ -333,6 +397,21 @@ n8n-runner:
     resources:
       limits:
         memory: 512M  # Increase as needed
+```
+
+### Python Path Issues
+
+The task runner uses a virtual environment at `/opt/runners/task-runner-python/.venv/`. Verify the Python path includes the venv:
+
+```bash
+docker exec n8n-runner \
+    /opt/runners/task-runner-python/.venv/bin/python \
+    -c "import sys; print('\n'.join(sys.path))"
+```
+
+Should include:
+```
+/opt/runners/task-runner-python/.venv/lib/python3.13/site-packages
 ```
 
 ---

@@ -122,7 +122,7 @@ Without task runner setup, only standard library modules are available:
 
 Requires external task runner configuration. See `community-fixes/python-external-libs/` for complete setup.
 
-Key settings:
+**Step 1: Configure task runner settings** (`n8n-task-runners.json`):
 ```json
 {
   "env-overrides": {
@@ -131,6 +131,35 @@ Key settings:
   }
 }
 ```
+
+**Step 2: Install libraries to the correct location**
+
+> ⚠️ **CRITICAL**: The base `n8nio/runners:latest` image does NOT include external libraries. You must install them!
+
+```bash
+# SSH into your server, then install to the venv site-packages (MUST run as root)
+docker exec -u root <runner-container-name> pip install \
+    --target=/opt/runners/task-runner-python/.venv/lib/python3.13/site-packages/ \
+    numpy pandas requests
+
+# Verify installation
+docker exec <runner-container-name> \
+    /opt/runners/task-runner-python/.venv/bin/python \
+    -c "import numpy; print(f'NumPy {numpy.__version__} installed!')"
+```
+
+**Common Mistake - Wrong installation path**:
+```bash
+# ❌ WRONG - Installs to system Python (won't work)
+docker exec n8n-runner pip install numpy
+
+# ✅ CORRECT - Install to venv site-packages
+docker exec -u root n8n-runner pip install \
+    --target=/opt/runners/task-runner-python/.venv/lib/python3.13/site-packages/ \
+    numpy
+```
+
+> **Note**: Live installations are lost on container restart. Use a custom Dockerfile for persistence.
 
 ### Using pandas
 
@@ -278,10 +307,36 @@ return results
 
 ## Common Errors
 
-### Error: Module not found
+### Error: No module named 'X' (e.g., numpy, pandas)
 
-**Cause:** External libraries not enabled
-**Fix:** Configure external task runner with `N8N_RUNNERS_EXTERNAL_ALLOW=*`
+**Cause 1:** Library installed to wrong location (system pip instead of venv)
+
+**Fix:** Install to the task runner's venv site-packages:
+```bash
+docker exec -u root <container> pip install \
+    --target=/opt/runners/task-runner-python/.venv/lib/python3.13/site-packages/ \
+    numpy
+```
+
+**Cause 2:** External libraries not allowed in config
+
+**Fix:** Add to `n8n-task-runners.json`:
+```json
+"N8N_RUNNERS_EXTERNAL_ALLOW": "*"
+```
+
+**Verify installation location:**
+```bash
+docker exec <container> \
+    /opt/runners/task-runner-python/.venv/bin/python \
+    -c "import numpy; print(numpy.__file__)"
+# Should show: /opt/runners/task-runner-python/.venv/lib/python3.13/site-packages/...
+```
+
+### Error: Permission denied during install
+
+**Cause:** venv directory owned by root
+**Fix:** Use `-u root` flag: `docker exec -u root <container> pip install ...`
 
 ### Error: Return value not iterable
 
@@ -292,6 +347,11 @@ return results
 
 **Cause:** Accessing missing key
 **Fix:** Use `.get()` with default: `item['json'].get('field', '')`
+
+### Error: Library lost after container restart
+
+**Cause:** Live installation is not persistent
+**Fix:** Use a custom Dockerfile to bake libraries into the image
 
 ---
 
