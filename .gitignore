@@ -51,6 +51,7 @@ coverage/
 *.zip
 skill-pack/
 
-# Project plan (private, not for public repo)
+# Project plan and promotion strategy (private, not for public repo)
 PROJECT_PLAN.md
 PROJECT_PLAN_backup.md
+PROMOTION.md
