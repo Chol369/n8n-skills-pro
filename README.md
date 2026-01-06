@@ -6,6 +6,11 @@
 [![n8n](https://img.shields.io/badge/n8n-v2.0+-orange)](https://n8n.io)
 [![Claude Code](https://img.shields.io/badge/Claude-Code-blue)](https://claude.ai/claude-code)
 [![Updates](https://img.shields.io/badge/Updates-Weekly-green)](https://github.com/Chol369/n8n-skills-pro/releases)
+[![GitHub Workflow Status](https://img.shields.io/github/actions/workflow/status/Chol369/n8n-skills-pro/validate.yml?branch=main&label=validation)](https://github.com/Chol369/n8n-skills-pro/actions)
+[![Last Commit](https://img.shields.io/github/last-commit/Chol369/n8n-skills-pro)](https://github.com/Chol369/n8n-skills-pro/commits/main)
+[![Repo Size](https://img.shields.io/github/repo-size/Chol369/n8n-skills-pro)](https://github.com/Chol369/n8n-skills-pro)
+[![Issues](https://img.shields.io/github/issues/Chol369/n8n-skills-pro)](https://github.com/Chol369/n8n-skills-pro/issues)
+[![Stars](https://img.shields.io/github/stars/Chol369/n8n-skills-pro?style=social)](https://github.com/Chol369/n8n-skills-pro/stargazers)
 
 ---
 
