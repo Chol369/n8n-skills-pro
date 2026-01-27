@@ -76,22 +76,16 @@ Interpret and fix n8n validation errors.
 
 **Triggers:** "validation error", "workflow error", "fix error", "not valid"
 
-### 09-v2-migrations
-n8n v2.0+ breaking changes and migration guides.
-- Execute Sub-Workflow fixes
-- Wait node patterns
-- Expression changes
-- Node versioning
-
-**Triggers:** "v2.0", "migration", "breaking change", "out of date", "execute sub-workflow"
-
-### 10-community-nodes
-Community packages and custom node guidance.
-- Popular packages
-- AI tools integration
+### 09-community-nodes
+Community packages, security, and custom node development.
+- Security evaluation (January 2026 supply chain attack awareness)
+- Verified vs unverified nodes
+- Popular packages with download stats
+- MCP integration
+- AI & LangChain nodes
 - Custom node development
 
-**Triggers:** "community node", "custom node", "package", "install node"
+**Triggers:** "community node", "custom node", "package", "install node", "npm", "security"
 
 ## Skill Priority
 
@@ -107,7 +101,6 @@ When multiple skills match, use this priority:
 
 See `community-fixes/` directory for workarounds:
 - Python external libraries setup
-- Execute Sub-Workflow v2.0 fix
 - Self-hosted deployment tips
 
 ## Updates

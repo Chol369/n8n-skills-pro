@@ -28,7 +28,7 @@ Existing n8n skills projects have great content but suffer from:
 
 ## Features
 
-### 10 Specialized Skills
+### 9 Specialized Skills
 
 | # | Skill | Purpose |
 |---|-------|---------|
@@ -40,16 +40,13 @@ Existing n8n skills projects have great content but suffer from:
 | 06 | **code-python** | Python WITH external libraries |
 | 07 | **expression-syntax** | Expression debugging mastery |
 | 08 | **validation-expert** | Error interpretation & fixes |
-| 09 | **v2-migrations** | n8n v2.0+ breaking changes |
-| 10 | **community-nodes** | Popular community packages |
+| 09 | **community-nodes** | Community packages, security, custom nodes |
 
 ### Community Fixes
 
 Real-world solutions not found in official docs:
 
 - **Python External Libraries** - Use pandas, numpy, requests in Code nodes
-- **Execute Sub-Workflow Fix** - v2.0 "out of date" error solution
-- **Wait Node Patterns** - Human-in-the-loop workflows
 - **Self-hosted Tips** - AWS, Docker-specific guides
 
 ### Automated Updates
@@ -98,8 +95,7 @@ n8n-skills-pro/
 │       ├── 06-code-python/
 │       ├── 07-expression-syntax/
 │       ├── 08-validation-expert/
-│       ├── 09-v2-migrations/
-│       └── 10-community-nodes/
+│       └── 09-community-nodes/
 ├── templates/           # Production-ready workflow JSONs
 ├── changelog/           # n8n version tracking
 ├── community-fixes/     # Workarounds & solutions
@@ -144,11 +140,11 @@ See [community-fixes/python-external-libs](./community-fixes/python-external-lib
 
 | Feature | czlonkowski | haunchen | promptadvisers | **n8n-skills-pro** |
 |---------|-------------|----------|----------------|-------------------|
-| Skills Count | 7 | 1 | 8 | **10** |
+| Skills Count | 7 | 1 | 8 | **9** |
 | Update Frequency | Sporadic | Sporadic | Sporadic | **Weekly** |
 | Python External Libs | No | No | No | **Yes** |
 | Community Fixes | No | No | No | **Yes** |
-| v2.0 Migration Guide | Partial | No | No | **Complete** |
+| Security Guidance | No | No | No | **Yes** |
 | Automated Updates | No | No | No | **Yes** |
 | Self-hosted Guides | Limited | Limited | Limited | **Comprehensive** |
 
