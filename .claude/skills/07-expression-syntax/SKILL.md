@@ -2,6 +2,12 @@
 
 > **Complete reference for n8n expressions: variables, patterns, debugging, and JMESPath**
 
+## Overview
+
+This skill covers everything about n8n expressions: the `{{ }}` syntax, built-in variables (`$json`, `$input`, `$node`, `$now`, `$env`), data access patterns, common mistakes, JMESPath queries, and debugging techniques. Use this when working with expressions in any n8n workflow.
+
+---
+
 ## Quick Reference
 
 | Need | Syntax | Example |

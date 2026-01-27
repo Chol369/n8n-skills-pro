@@ -61,13 +61,13 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ### [0.3.0] - Target: Week 4
 - Add workflow templates (5-10)
-- GitHub Actions for weekly sync
+- GitHub Actions for monthly sync
 - Automated n8n version tracking
 
 ### [1.0.0] - Target: Month 2
 - 20+ workflow templates
 - Active community contributions
-- Stable weekly update cycle
+- Stable monthly update cycle
 - Node documentation sync from npm
 
 ---
@@ -84,4 +84,4 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ---
 
-*This project syncs weekly with n8n releases. Check back for updates!*
+*This project syncs monthly with n8n releases. Check back for updates!*

@@ -5,7 +5,7 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![n8n](https://img.shields.io/badge/n8n-v2.0+-orange)](https://n8n.io)
 [![Claude Code](https://img.shields.io/badge/Claude-Code-blue)](https://claude.ai/claude-code)
-[![Updates](https://img.shields.io/badge/Updates-Weekly-green)](https://github.com/Chol369/n8n-skills-pro/releases)
+[![Updates](https://img.shields.io/badge/Updates-Monthly-green)](https://github.com/Chol369/n8n-skills-pro/releases)
 [![GitHub Workflow Status](https://img.shields.io/github/actions/workflow/status/Chol369/n8n-skills-pro/validate.yml?branch=main&label=validation)](https://github.com/Chol369/n8n-skills-pro/actions)
 [![Last Commit](https://img.shields.io/github/last-commit/Chol369/n8n-skills-pro)](https://github.com/Chol369/n8n-skills-pro/commits/main)
 [![Repo Size](https://img.shields.io/github/repo-size/Chol369/n8n-skills-pro)](https://github.com/Chol369/n8n-skills-pro)
@@ -22,7 +22,7 @@ Existing n8n skills projects have great content but suffer from:
 - **Scattered knowledge** - Best practices spread across multiple repos
 - **Missing community fixes** - Workarounds discovered but not documented
 
-**n8n-skills-pro solves this** by consolidating the best skills, adding community fixes, and maintaining weekly updates synced with n8n releases.
+**n8n-skills-pro solves this** by consolidating the best skills, adding community fixes, and maintaining monthly updates synced with n8n releases.
 
 ---
 
@@ -51,7 +51,7 @@ Real-world solutions not found in official docs:
 
 ### Automated Updates
 
-- Weekly sync with n8n npm releases
+- Monthly sync with n8n npm releases
 - Automated changelog generation
 - Breaking change detection
 - New node documentation
@@ -141,7 +141,7 @@ See [community-fixes/python-external-libs](./community-fixes/python-external-lib
 | Feature | czlonkowski | haunchen | promptadvisers | **n8n-skills-pro** |
 |---------|-------------|----------|----------------|-------------------|
 | Skills Count | 7 | 1 | 8 | **9** |
-| Update Frequency | Sporadic | Sporadic | Sporadic | **Weekly** |
+| Update Frequency | Sporadic | Sporadic | Sporadic | **Monthly** |
 | Python External Libs | No | No | No | **Yes** |
 | Community Fixes | No | No | No | **Yes** |
 | Security Guidance | No | No | No | **Yes** |
@@ -195,4 +195,4 @@ If this project helps you, please star it!
 
 ---
 
-*Maintained with weekly updates synced to n8n releases*
+*Maintained with monthly updates synced to n8n releases*

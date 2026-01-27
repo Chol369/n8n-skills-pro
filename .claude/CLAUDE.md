@@ -105,5 +105,5 @@ See `community-fixes/` directory for workarounds:
 
 ## Updates
 
-This skill set is updated weekly to sync with n8n releases.
+This skill set is updated monthly to sync with n8n releases.
 Check `changelog/` for version-specific changes.

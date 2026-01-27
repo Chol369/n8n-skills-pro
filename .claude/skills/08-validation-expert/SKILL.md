@@ -2,6 +2,12 @@
 
 > **Complete guide to interpreting errors, validating workflows, and ensuring production readiness**
 
+## Overview
+
+This skill covers workflow validation, error interpretation, and production readiness. It includes a complete error catalog, validation profiles (minimal, runtime, ai-friendly, strict), auto-fix tools, error handling patterns, and pre-deployment checklists. Use this when encountering validation errors or preparing workflows for production.
+
+---
+
 ## Quick Reference
 
 | Need | Tool/Action |
@@ -345,7 +351,7 @@ config.text = "={{ $json.name }}";
 ```javascript
 // Single node validation
 validate_node({
-  nodeType: "n8n-nodes-base.slack",
+  nodeType: "nodes-base.slack",
   config: { resource: "message", operation: "post" },
   mode: "full",
   profile: "runtime"  // RECOMMENDED
@@ -383,7 +389,7 @@ AI-generated workflows → ai-friendly (reduces false positives)
 
 ```javascript
 validate_node({
-  nodeType: "n8n-nodes-base.slack",
+  nodeType: "nodes-base.slack",
   config: {
     resource: "message",
     operation: "post",
